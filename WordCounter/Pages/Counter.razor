@@ -1,18 +1,37 @@
 ﻿@page "/counter"
+@using System.Text.RegularExpressions
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p role="status">Current count: @currentCount</p>
+<EditForm Model="@userForm" OnValidSubmit="@CountWords">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <div class="mb-3">
+        <label for="@userForm.InsertedText" class="form-label">Insert text</label>
+        <InputTextArea @bind-Value="@userForm.InsertedText" class="form-control"></InputTextArea>
+    </div>
+    <button type="submit" class="btn btn-primary">Count</button>
+</EditForm>
+
+<div class="container text-center">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            <p role="status">Current count: @currentCount</p>
+        </div>
+    </div>
+</div>
 
 @code {
+    private UserForm userForm = new();
     private int currentCount = 0;
 
-    private void IncrementCount()
+    private void CountWords() => currentCount = string.IsNullOrWhiteSpace(userForm.InsertedText) ? 0 : Regex.Matches(userForm.InsertedText, @"[\p{L}\p{N}]+").Count;
+
+    public class UserForm
     {
-        currentCount++;
+        public string? InsertedText { get; set; }
     }
 }
