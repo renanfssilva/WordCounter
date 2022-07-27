@@ -23,6 +23,10 @@ jobs:
       - name: Publish .NET Core Project
         run: dotnet publish WordCounter/WordCounter.csproj -c Release -o release --nologo
         
+      # changes the base-tag in index.html from '/' to 'BlazorGitHubPagesDemo' to match GitHub Pages repository subdirectory
+      - name: Change base-tag in index.html from / to WordCounter
+        run: sed -i 's/<base href="\/" \/>/<base href="\/WordCounter\/" \/>/g' WordCounter/Pages/_Layout.cshtml
+        
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
