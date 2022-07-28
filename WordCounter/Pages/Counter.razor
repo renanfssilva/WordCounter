@@ -28,7 +28,7 @@
     private UserForm userForm = new();
     private int currentCount = 0;
 
-    private void CountWords() => currentCount = string.IsNullOrWhiteSpace(userForm.InsertedText) ? 0 : Regex.Matches(userForm.InsertedText, @"[\p{L}\p{N}]+").Count;
+    private void CountWords() => currentCount = string.IsNullOrWhiteSpace(userForm.InsertedText) ? 0 : Regex.Matches(userForm.InsertedText, @"[\p{L}]+").Count;
 
     public class UserForm
     {
