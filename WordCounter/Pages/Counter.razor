@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
 
 <PageTitle>Counter</PageTitle>
 
@@ -10,8 +11,7 @@
     <ValidationSummary />
 
     <div class="mb-3">
-        <label for="@userForm.InsertedText" class="form-label">Insert text</label>
-        <InputTextArea @bind-Value="@userForm.InsertedText" class="form-control"></InputTextArea>
+        <InputTextArea @bind-Value="@userForm.InsertedText" placeholder="Place your text here..." class="form-control"></InputTextArea>
     </div>
     <button type="submit" class="btn btn-primary">Count</button>
 </EditForm>
@@ -32,6 +32,7 @@
 
     public class UserForm
     {
+        [Required(ErrorMessage = "Some text input is required.")]
         public string? InsertedText { get; set; }
     }
 }
