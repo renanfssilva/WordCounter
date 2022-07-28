@@ -15,11 +15,11 @@ namespace WordCounter.Tests
             var pElementText = pElement.TextContent;
 
             // Assert
-            pElementText.MarkupMatches("Current count: 0");
+            pElementText.MarkupMatches("Words counted: 0");
         }
 
         [Fact]
-        public void ErrorRendersCorrectly()
+        public void ValidationMessageRendersCorrectly()
         {
             // Arrange
             var renderedComponent = RenderComponent<Counter>();
