@@ -7,12 +7,12 @@
 
 <h1>Counter</h1>
 
-<EditForm Model="@userForm" OnValidSubmit="@CountWords">
+<EditForm Model="@_userForm" OnValidSubmit="@CountWords" OnInvalidSubmit="@HandleInvalidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="mb-3">
-        <InputTextArea @bind-Value="@userForm.InsertedText" placeholder="Place your text here..." class="form-control"></InputTextArea>
+        <InputTextArea @bind-Value="@_userForm.InsertedText" placeholder="Place your text here..." class="form-control"></InputTextArea>
     </div>
     <button type="submit" class="btn btn-primary">Count</button>
 </EditForm>
@@ -20,17 +20,19 @@
 <div class="container text-center">
     <div class="row justify-content-md-center">
         <div class="col-md-auto">
-            <p role="status">Words counted: @currentCount</p>
+            <p role="status">Words counted: @_currentCount</p>
         </div>
     </div>
 </div>
 
 @code {
-    private UserForm userForm = new();
-    private int currentCount = 0;
+    private UserForm _userForm = new();
+    private int _currentCount = 0;
 
     private void CountWords() => 
-        currentCount = string.IsNullOrWhiteSpace(userForm.InsertedText)
+        _currentCount = string.IsNullOrWhiteSpace(_userForm.InsertedText)
                         ? 0
-                        : Regex.Matches(userForm.InsertedText, @"[\p{L}]+").Count;
+                        : Regex.Matches(_userForm.InsertedText, @"[\p{L}]+").Count;
+
+    private void HandleInvalidSubmit() => _currentCount = 0;
 }
