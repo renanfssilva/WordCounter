@@ -9,24 +9,24 @@ The WordCounter project is published on Heroku, you can access through the websi
 ### 2. .NET
 Steps to run the project:
 * First you'll need to install .NET 6.0, the download link is at the [Developed With](https://github.com/renanfssilva/WordCounter#developed-with) section;
-* Clone this project
+* Clone this project:
 ```bash
 git clone https://github.com/renanfssilva/WordCounter
 cd .\WordCounter\
 ```
-* Build it
+* Build it:
 ```bash
 dotnet build
 ```
-* Enter subfolder WordCounter
+* Enter subfolder WordCounter:
 ```bash
 cd .\WordCounter
 ```
-* Run the project
+* Run the project:
 ```bash
 dotnet run
 ```
-* Open your browser and you can access it through
+* Open your browser and you can access it through:
   * HTTPS: https://localhost:7033 or
   * HTTP: http://localhost:5033
 
@@ -34,7 +34,7 @@ dotnet run
 Steps to run project tests:
 * After installing .NET 6.0, clone the project and build it;
 * Access the folder **_{root}\WordCounter\WordCounter.Tests_** through console;
-* Run tests
+* Run tests:
 ```bash
 dotnet test
 ```
