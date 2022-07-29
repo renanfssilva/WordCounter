@@ -6,7 +6,7 @@
 
 <h1>Counter</h1>
 
-<EditForm Model="@_userForm" OnValidSubmit="@CountWords" OnInvalidSubmit="@HandleInvalidSubmit">
+<EditForm EditContext="@_editContext" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -25,13 +25,47 @@
 </div>
 
 @code {
-    private readonly UserForm _userForm = new();
+    private EditContext? _editContext;
+    private UserForm _userForm = new();
+    private ValidationMessageStore? _messageStore;
     private int _currentCount;
 
-    private void CountWords() => 
-        _currentCount = string.IsNullOrWhiteSpace(_userForm.InsertedText)
+    private int CountWords() =>
+        string.IsNullOrWhiteSpace(_userForm.InsertedText)
                         ? 0
                         : Regex.Matches(_userForm.InsertedText, @"[\p{L}]+").Count;
 
-    private void HandleInvalidSubmit() => _currentCount = 0;
+    private void HandleSubmit()
+    {
+        _currentCount = CountWords();
+
+        ValidateForm();
+    }
+
+    // Known Issue: On Blazor we have to treat error messages like this,
+    // because the built-in OnValidSubmit forces the user to click twice on submit button to trigger the action.
+    // So Blazor users have to build turn around methods to fix that problem.
+    private void ValidateForm()
+    {
+        if (_messageStore == null || _editContext == null || (_editContext.GetValidationMessages().Any() && _currentCount <= 0)) return;
+
+        if (_currentCount > 0)
+        {
+            _messageStore.Clear(_editContext.Field("InsertedText"));
+            _messageStore.Clear();
+        }
+        else
+            _messageStore.Add(_editContext.Field("InsertedText"), "Some text input is required.");
+
+        _editContext.Validate();
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        _userForm = new UserForm();
+        _editContext = new EditContext(_userForm);
+        _messageStore = new ValidationMessageStore(_editContext);
+
+        return Task.CompletedTask;
+    }
 }
