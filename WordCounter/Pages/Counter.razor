@@ -1,6 +1,5 @@
 ﻿@page "/counter"
 @using System.Text.RegularExpressions
-@using System.ComponentModel.DataAnnotations
 @using WordCounter.Models
 
 <PageTitle>Counter</PageTitle>
@@ -26,7 +25,7 @@
 </div>
 
 @code {
-    private UserForm _userForm = new();
+    private readonly UserForm _userForm = new();
     private int _currentCount = 0;
 
     private void CountWords() => 
